@@ -3,12 +3,20 @@ html
     head
         title Knowledgebase
         link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
+        link(rel='stylesheet' href='/css/style.css')
     body
         .container
+            != messages('message', locals)
+            if errors
+                each error, i in errors
+                    div(class="alert alert-danger") #{error.msg}
             block content
             br
             hr
+            a(href='./users/register') Register
+            a(href='./users/login') Login
             footer
                 p Copyright &copy; 2017
         script(src='/bower_components/jquery/dist/jquery.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
+        script(src='/js/main.js')
