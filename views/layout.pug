@@ -2,9 +2,13 @@ doctype html
 html
     head
         title Knowledgebase
+        link(rel='stylesheet' href='/bower_components/bootstrap/dist/css/bootstrap.css')
     body
-        block content
-        br
-        hr
-        footer
-            p Copyright &copy; 2017
+        .container
+            block content
+            br
+            hr
+            footer
+                p Copyright &copy; 2017
+        script(src='/bower_components/jquery/dist/jquery.js')
+        script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
