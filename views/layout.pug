@@ -13,8 +13,11 @@ html
             block content
             br
             hr
-            a(href='./users/register') Register
-            a(href='./users/login') Login
+            if user
+                a(href='/users/logout') Logout
+            else
+                a(href='/users/register') Register
+                a(href='/users/login') Login
             footer
                 p Copyright &copy; 2017
         script(src='/bower_components/jquery/dist/jquery.js')

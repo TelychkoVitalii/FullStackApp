@@ -15,7 +15,6 @@ router.get('/add', function (req, res) {
 router.post('/add', function (req, res) {
     // Validators
     req.checkBody('title', 'title is required').notEmpty();
-    req.checkBody('author', 'author is required').notEmpty();
     req.checkBody('body', 'body is required').notEmpty();
 
     // Get Errors
@@ -28,7 +27,7 @@ router.post('/add', function (req, res) {
     } else {
         const article = new Article();
         article.title = req.body.title;
-        article.author = req.body.author;
+        article.author = req.user._id;
         article.body = req.body.body;
         article.save(function (err) {
             if(err) {
