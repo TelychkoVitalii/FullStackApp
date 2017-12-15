@@ -66,7 +66,7 @@ router.post('/edit/:id', (req, res) => {
     article.body = req.body.body;
 
     const query = {_id: req.params.id};
-    
+
     Article.update(query, article, (err) => {
         if(err) {
             console.log(err);
