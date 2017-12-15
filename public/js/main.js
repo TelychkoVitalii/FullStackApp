@@ -5,12 +5,13 @@ $(document).ready(function () {
         $.ajax({
             type: 'DELETE',
             url: '/articles/' + id,
-            success: function () {
+            success: function (response) {
+                alert('Deleting Article');
                 window.location.href = '/';
             },
             error: function (err) {
                 console.log(err);
             }
-        })
-    })
+        });
+    });
 });

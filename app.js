@@ -33,8 +33,6 @@ app.set('view engine', 'pug');
 
 // Body parse middleware
 app.use(bodyParser.urlencoded({ extended: false }));
-
-// Body parse application/json
 app.use(bodyParser.json());
 
 // Set Public Folder
@@ -44,8 +42,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: true
 }));
 
 // Express Messages Middleware
@@ -57,17 +54,18 @@ app.use(function (req, res, next) {
 
 // Express Validator Middleware
 app.use(expressValidator({
-    errorFormatter: function (param, msg, value) {
+    errorFormatter: function(param, msg, value) {
         var namespace = param.split('.')
-            , root = namespace.shift()
+            , root    = namespace.shift()
             , formParam = root;
+
         while(namespace.length) {
             formParam += '[' + namespace.shift() + ']';
         }
         return {
-            param: formParam,
-            msg: msg,
-            value: value
+            param : formParam,
+            msg   : msg,
+            value : value
         };
     }
 }));

@@ -8,12 +8,7 @@ const User = require('../models/user');
 
 // Register Form
 router.get('/register', function (req, res) {
-    res.render('register')
-});
-
-// Login Form
-router.get('/login', function (req, res) {
-    res.render('login');
+    res.render('register');
 });
 
 // Register Process
@@ -30,20 +25,20 @@ router.post('/register', function (req, res) {
     req.checkBody('password', 'password is required').notEmpty();
     req.checkBody('password2', 'passwords is required').equals(req.body.password);
 
-    const errors = req.validationErrors();
+    var errors = req.validationErrors();
 
     if(errors) {
         res.render('register', {
             errors: errors
         });
     } else {
-        const newUser = new User({
+        var newUser = new User({
             name: name,
             email: email,
             username: username,
-            password: password,
-            password2: password2
+            password: password
         });
+
         bcrypt.genSalt(10, function (err, salt) {
             bcrypt.hash(newUser.password, salt, function (err, hash) {
                 if(err) {
@@ -53,14 +48,20 @@ router.post('/register', function (req, res) {
                 newUser.save(function (err) {
                     if(err) {
                         console.log(err);
+                        return;
                     } else {
                         req.flash('success', 'You are now register and can log in');
-                        res.redirect('login');
+                        res.redirect('/users/login');
                     }
-                })
+                });
             });
-        })
+        });
     }
+});
+
+// Login Form
+router.get('/login', function (req, res) {
+    res.render('login');
 });
 
 // Login Process
