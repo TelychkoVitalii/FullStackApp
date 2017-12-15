@@ -7,12 +7,10 @@ const passport = require('passport');
 const User = require('../models/user');
 
 // Register Form
-router.get('/register', function (req, res) {
-    res.render('register');
-});
+router.get('/register', (req, res) => res.render('register'));
 
 // Register Process
-router.post('/register', function (req, res) {
+router.post('/register', (req, res) => {
     const name = req.body.name;
     const email = req.body.email;
     const username = req.body.username;
@@ -25,30 +23,29 @@ router.post('/register', function (req, res) {
     req.checkBody('password', 'password is required').notEmpty();
     req.checkBody('password2', 'passwords is required').equals(req.body.password);
 
-    var errors = req.validationErrors();
+    const errors = req.validationErrors();
 
     if(errors) {
         res.render('register', {
             errors: errors
         });
     } else {
-        var newUser = new User({
+        const newUser = new User({
             name: name,
             email: email,
             username: username,
             password: password
         });
 
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(newUser.password, salt, function (err, hash) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
                 if(err) {
                     console.log(err);
                 }
                 newUser.password = hash;
-                newUser.save(function (err) {
+                newUser.save((err) => {
                     if(err) {
                         console.log(err);
-                        return;
                     } else {
                         req.flash('success', 'You are now register and can log in');
                         res.redirect('/users/login');
@@ -60,12 +57,10 @@ router.post('/register', function (req, res) {
 });
 
 // Login Form
-router.get('/login', function (req, res) {
-    res.render('login');
-});
+router.get('/login', (req, res) => res.render('login'));
 
 // Login Process
-router.post('/login', function (req, res, next) {
+router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/',
         failureRedirect: '/users/login',
@@ -74,7 +69,7 @@ router.post('/login', function (req, res, next) {
 });
 
 // Logout
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
     req.logout();
     req.flash('success', 'You are logged out');
     res.redirect('/users/login');
